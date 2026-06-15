@@ -39,3 +39,17 @@ result = np.matmul(sentence, weights)
 print("\nAfter matrix multiply:")
 print(result)
 print("Result shape:", result.shape)
+
+random_weights = np.random.randn(3,3)
+print("\nRandom weights:")
+print(random_weights)
+
+numbers = np.array([1,2,3,4,5,6,7,8,9,10])
+print("\nMean:",np.mean(numbers))
+print("Std:",np.std(numbers)) #standard_deviationn
+
+a = np.array([1,2,3,4,5,6])
+print("\nOriginal:" , a.shape)
+reshaped = a.reshape(2,3)
+print("\nReshaped:" , reshaped)
+print("New shape:" , reshaped.shape)
