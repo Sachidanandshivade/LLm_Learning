@@ -1,0 +1,13 @@
+# Virtual environments
+llm_env311/
+venv/
+env/
+.env/
+__pycache__/
+
+# Python
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
