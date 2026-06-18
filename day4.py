@@ -57,3 +57,16 @@ print("\nGradients:")
 print("dw:", w.grad)  # how much to adjust w
 print("db:", b.grad)  # how much to adjust b
 print("dx:", x.grad)  # how much to adjust x
+
+
+lr = 0.01
+w_new = w-lr*w.grad
+b_new = b-lr * b.grad
+
+print("\nOld w:", w.item(), "New w:", w_new.item())
+print("Old b:", b.item(), "New b:", b_new.item())
+
+y_new = x * w_new + b_new
+print("Old y:", y.item())
+print("New y:", y_new.item())
+print("Closer to 10?", abs(y_new.item() - 10) < abs(y.item() - 10))
