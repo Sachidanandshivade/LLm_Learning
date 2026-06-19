@@ -1,13 +1,10 @@
 import torch
 
-# Let's verify backprop by hand vs PyTorch
-
 x = torch.tensor(2.0)
 w = torch.tensor(3.0, requires_grad=True)
 b = torch.tensor(1.0, requires_grad=True)
 target = torch.tensor(10.0)
 
-# Forward pass
 y = x * w + b
 loss = (y - target) ** 2
 
@@ -15,7 +12,6 @@ print("=== Forward Pass ===")
 print(f"y = {y.item()}")
 print(f"loss = {loss.item()}")
 
-# Backward pass — PyTorch computes gradients
 loss.backward()
 
 print("\n=== PyTorch Gradients ===")
