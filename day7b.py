@@ -1,5 +1,7 @@
 from collections import Counter
 
+from sympy import python
+
 # Our training text
 text = "low lower lowest low lower newest newest"
 
@@ -25,6 +27,7 @@ print("\nPair counts:")
 for pair, count in pairs.most_common(5):
     print(" ", pair, ":", count)
 
+
 # Step 3 — merge the most frequent pair
 def merge_pair(tokens, pair):
     new_tokens = []
@@ -34,7 +37,6 @@ def merge_pair(tokens, pair):
         new_token = token.replace(bigram, replacement)
         new_tokens.append(new_token)
     return new_tokens
-
 best_pair = pairs.most_common(1)[0][0]
 print("\nMerging:", best_pair)
 tokens = merge_pair(tokens, best_pair)
