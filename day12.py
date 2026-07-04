@@ -8,11 +8,24 @@ torch.manual_seed(42)
 # Training text — we'll use a simple paragraph
 # ============================================
 text = """
-Sachidanand Shivade is a full stack developer.
-He knows Java, Spring Boot, React, MySQL and MongoDB.
-He built a Job Portal, URL Shortener, Car Pooling Platform and Cricket Score App.
-He is passionate about building scalable web applications.
-He is learning to build his own LLM from scratch.
+Name: Sachidanand Shivade
+Title: Software Developer / Full Stack Developer
+Professional Summary: Full Stack Developer skilled in React, Spring Boot, Hibernate, MySQL, and MongoDB, with a focus on building robust and scalable web applications. Eager to leverage technical foundation to develop innovative solutions that drive business growth and deliver exceptional user experiences. Looking to contribute meaningfully to a forward-thinking team while continuously growing as an engineer.
+Contact:
+Phone: 9353947020
+Email: shivade.sachidanand@gmail.com
+LinkedIn: sachidanand-shivade-197a802a0
+GitHub: github.com/Sachidanandshivade
+Education:
+Reva University, 2022-2026, Bachelor of Technology (CSIT), CGPA 8.6
+Sri Mate Manikeshwari PU College, 2020-2022, Pre-University Science, Percentage 85%
+Internship:
+Software Development Intern, Kodnest Technologies, Bengaluru, Karnataka, India, 23 Mar 2026 - Present
+
+Developed proficiency in Java, MySQL, frontend development and backend development (Spring Boot)
+Acquired practical experience with real-world development workflows and debugging processes
+Collaborated on team-based projects, enhancing problem-solving skills and ability to work effectively in a team setting
+
 """
 
 # ============================================
@@ -147,7 +160,7 @@ print(f"Parameters: {total_params:,}")
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
 print(f"\n=== Training ===")
-for step in range(3000):
+for step in range(5000):
     # Get random batch
     x, y = get_batch(data, block_size)
 
@@ -174,7 +187,7 @@ print("\n✅ Training complete!")
 # ============================================
 # Text Generation
 # ============================================
-def generate(model, start_text, max_new_tokens=100):
+def generate(model, start_text, max_new_tokens=200):
     model.eval()
     token_ids = torch.tensor(encode(start_text)).unsqueeze(0)  # [1, seq_len]
 
@@ -209,10 +222,10 @@ def generate(model, start_text, max_new_tokens=100):
 print("\n=== Text Generation ===")
 print("\nStarting with: 'Sachidanand'")
 print("-" * 40)
-print(generate(model, "Sachidanand", max_new_tokens=150))
+print(generate(model, "Sachidanand", max_new_tokens=250))
 print("-" * 40)
 
 print("\nStarting with: 'He knows'")
 print("-" * 40)
-print(generate(model, "He knows", max_new_tokens=150))
+print(generate(model, "Skills", max_new_tokens=250))
 print("-" * 40)
