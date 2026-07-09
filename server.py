@@ -1,6 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI # Python framework for building web Api's
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel # python library that validated the data
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -10,16 +10,22 @@ app = FastAPI()
 # Allow requests from your React portfolio
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["*"], # allow requests from ANY website
+    allow_methods=["*"],# allow GET, POST, etc
+    allow_headers=["*"],  # allow any headers
+
 )
 
 # ============================================
 # Load your trained GPT
 # ============================================
-class SelfAttention(nn.Module):
-    def __init__(self, embed_dim):
+class SelfAttention(nn.Module): # gets all pytorch features (kind of inheritence)
+
+    # Every word asks every other word
+    # "how relevant are you to me?" and
+    # collects information weighted by relevance.
+
+    def __init__(self, embed_dim): # embed_div is size og each token vector
         super().__init__()
         self.embed_dim = embed_dim
         self.W_q = nn.Linear(embed_dim, embed_dim, bias=False)
@@ -27,11 +33,18 @@ class SelfAttention(nn.Module):
         self.W_v = nn.Linear(embed_dim, embed_dim, bias=False)
         self.out = nn.Linear(embed_dim, embed_dim)
 
+
+    #forward() defines what happens
+    # when data passes through your layer.
+
+
+    #forward  → data flows IN  → predictions come OUT
+    #backward → gradients flow back → weights get updated
     def forward(self, x):
         seq_len = x.shape[1]
-        Q = self.W_q(x)
-        K = self.W_k(x)
-        V = self.W_v(x)
+        Q = self.W_q(x)  #what i am searching for
+        K = self.W_k(x) #what do i contain
+        V = self.W_v(x) #what do i share
         scores = torch.matmul(Q, K.transpose(-2, -1))
         scores = scores / (self.embed_dim ** 0.5)
         mask = torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()
@@ -39,15 +52,22 @@ class SelfAttention(nn.Module):
         weights = F.softmax(scores, dim=-1)
         return self.out(torch.matmul(weights, V))
 
+# SelfAttention:
+# "each token looks at OTHER tokens"
+# → communication between tokens
+#
+# FeedForward:
+# "each token thinks about what it learned"
+# → computation within each token
 
 class FeedForward(nn.Module):
     def __init__(self, embed_dim):
         super().__init__()
         self.net = nn.Sequential(
             nn.Linear(embed_dim, embed_dim * 4),
-            nn.GELU(),
+            nn.GELU(), #Gaussian Error Linear Unit
             nn.Linear(embed_dim * 4, embed_dim),
-            nn.Dropout(0.1)
+            nn.Dropout(0.1) #It prevents overfitting — when model memorizes training data instead of learning patterns.
         )
 
     def forward(self, x):
