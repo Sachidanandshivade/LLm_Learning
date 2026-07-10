@@ -119,6 +119,7 @@ embed_dim   = checkpoint['embed_dim']
 num_blocks  = checkpoint['num_blocks']
 block_size  = checkpoint['block_size']
 
+
 model = GPT(vocab_size, embed_dim, num_blocks, block_size)
 model.load_state_dict(checkpoint['model_state'])
 model.eval()
@@ -129,9 +130,11 @@ print("✅ Model loaded successfully!")
 # ============================================
 def encode(s):
     return [char_to_id.get(ch, 0) for ch in s]
+# Converts a string into a list of numbers the model can understand.
 
 def decode(ids):
     return "".join([id_to_char.get(i, '') for i in ids])
+# Converts a list of numbers back into readable text.
 
 def generate_answer(question, max_new_tokens=150):
     prompt = f"Q: {question} A:"
